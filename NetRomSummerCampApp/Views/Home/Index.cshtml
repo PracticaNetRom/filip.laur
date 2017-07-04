@@ -1,0 +1,65 @@
+﻿@using NetRomSummerCampApp.Models;
+@model List<Category>
+
+@{ 
+    Layout = null;
+}
+
+<div class="container">
+    <div class="page-header">
+        <h1>Announcement List</h1>
+    </div>
+
+  
+
+    <div class="form-inline">
+            @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
+        {
+            Value = item.Id.ToString(),
+            Text = item.Name.ToString(),
+            Selected = "select" == item.Id.ToString()
+        }), new { @class = "form-control", id = "dropDownList" })
+
+
+            <script>
+                $(function () {
+                    $('#searchCategory').on('click', function () {
+                        var e = document.getElementById("dropDownList");
+                        var selected = e.options[e.selectedIndex].text;
+                        window.location.href = "http://localhost:55539/Home/Index/" + selected;
+                    })
+                })
+            </script>
+
+
+            <button type="submit" href="Search" class="btn btn-primary" formmethod="post" id="searchCategory" >Search</button>
+
+        @Html.ActionLink("New Announcement", "CreateAnnouncement",null, new { @class = "btn btn-success" })
+    </div>
+
+
+    <br /><br /> <br />
+
+    @foreach (var a in @ViewBag.Ann)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2>@a.Title</h2>
+            </div>
+            <div class="panel-body">
+                <h3>@a.CategoryName</h3>
+                <button class="btn btn-info">
+                    @Html.ActionLink("Show Details", "ShowDetails", new { id = a.Id })
+                </button>
+            </div>
+           
+        </div>
+
+
+       
+    }
+
+    
+
+
+</div>
